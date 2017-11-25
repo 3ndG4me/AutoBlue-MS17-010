@@ -7,11 +7,14 @@ This version of the exploit is prepared in a way where you can exploit eternal b
 This allows for this version of the MS17-010 exploit to be a bit more flexible, and also fully functional, as many exploits leave out the steps to compile the kernel shellcode that usually comes with it.
 
 Included is also an enternal blue checker script that allows you to test if your target is potentially vulnerable to MS17-010
+
 run `python eternalblue_checker.py <TARGET-IP>`
 
 ## USAGE:
 Navigate to the `shellcode` directory in the repo:
+
 run `./shell_prep.sh`
+
 Follow the prompts, for example:
 ```
                  _.-;;-._
@@ -41,7 +44,9 @@ After the script finishes there will be a shellcode binary named `sc_all.bin` in
 
 
 Next, navigate to the main repo directory:
+
 run `listener_prep.sh`
+
 Follow the propmts, for example:
 ```
  /,-
