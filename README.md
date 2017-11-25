@@ -4,7 +4,7 @@ This is some no-bs public exploit code that generates valid shellcode for the et
 
 This version of the exploit is prepared in a way where you can exploit eternal blue WITHOUT metasploit. Your options for auto shell generation are to generate shellcode with msfvenom that has meterpreter (i.e. with metasploit) or to generate a normal windows cmd shell (i.e. without metasploit). Alternatively you can elect to brew in your own shellcode.
 
-This allows for this version of the MS17-010 exploit to be a bit more flexible, and also fully functional, as many exploits leave out the steps to compile the kernel shellcode that comes with this in most repos.
+This allows for this version of the MS17-010 exploit to be a bit more flexible, and also fully functional, as many exploits leave out the steps to compile the kernel shellcode that usually comes with it.
 
 Included is also an enternal blue checker script that allows you to test if your target is potentially vulnerable to MS17-010
 run `python eternalblue_checker.py <TARGET-IP>`
