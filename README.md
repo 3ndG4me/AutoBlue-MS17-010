@@ -10,6 +10,9 @@ Included is also an enternal blue checker script that allows you to test if your
 
 run `python eternalblue_checker.py <TARGET-IP>`
 
+## VIDEO TUTORIAL:
+https://www.youtube.com/watch?v=p9OnxS1oDc0
+
 ## USAGE:
 Navigate to the `shellcode` directory in the repo:
 
