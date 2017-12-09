@@ -50,7 +50,7 @@ Next, navigate to the main repo directory:
 
 run `listener_prep.sh`
 
-Follow the propmts, for example:
+Follow the prompts, for example:
 ```
  /,-
   ||)
