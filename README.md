@@ -10,6 +10,13 @@ Included is also an enternal blue checker script that allows you to test if your
 
 run `python eternalblue_checker.py <TARGET-IP>`
 
+
+## TODO:
+1. Testing on specfic Windows 10 builds
+2. Testing with stageless payload
+3. Testing with non-msfvenom shellcode
+4. Resolving any open issues
+
 ## VIDEO TUTORIAL:
 https://www.youtube.com/watch?v=p9OnxS1oDc0
 
@@ -72,7 +79,7 @@ Starting listener...
 ## PWN:
 If you have completed the USAGE steps, now you're ready to PWN the target.
 
-run `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin>`
+run `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin> <Number of Groom Connections (optional)>`
 
 This has only been tested on Windows 7/Server 2008, however the exploit included in this repo also includes the Windows 8 version and *should* work.
 
