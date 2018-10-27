@@ -134,7 +134,7 @@ class MYSMB(smb.SMB):
 
 	def get_smbconnection(self):
 		if self._smbConn is None:
-			self.smbConn = smbconnection.SMBConnection(self.get_remote_host(), self.get_remote_host(), existingConnection=self, manualNegotiate=True)
+			self.smbConn = smbconnection.SMBConnection(self.get_remote_host(), self.get_remote_host(), existingConnection=self)
 		return self.smbConn
 
 	def get_dce_rpc(self, named_pipe):
@@ -149,7 +149,7 @@ class MYSMB(smb.SMB):
 	# to use any login method, SMB must not be used from multiple thread
 	def login(self, user, password, domain='', lmhash='', nthash='', ntlm_fallback=True, maxBufferSize=None):
 		_setup_login_packet_hook(maxBufferSize)
-		smb.SMB.login(self, user, password, domain, lmhash, nthash, ntlm_fallback)
+		smb.SMB.login(self, user, password, domain, lmhash, nthash)
 
 	def login_standard(self, user, password, domain='', lmhash='', nthash='', maxBufferSize=None):
 		_setup_login_packet_hook(maxBufferSize)
