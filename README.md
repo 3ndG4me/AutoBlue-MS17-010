@@ -12,10 +12,7 @@ run `python eternalblue_checker.py <TARGET-IP>`
 
 
 ## TODO:
-1. Testing on specfic Windows 10 builds
-2. Testing with stageless payload
-3. Testing with non-msfvenom shellcode
-4. Resolving any open issues
+1. Testing with non-msfvenom shellcode
 
 ## VIDEO TUTORIAL:
 https://www.youtube.com/watch?v=p9OnxS1oDc0
