@@ -80,7 +80,7 @@ run:
 
 `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin> <Number of Groom Connections (optional)>`
 
-This has only been tested on Windows 7/Server 2008, and Windows 10 10230 (x64) 
+This has only been tested on Windows 7/Server 2008, and Windows 10 10240 (x64) 
 
 However the exploit included in this repo also includes the Windows 8/Server 2012 version and *should* work.
 
