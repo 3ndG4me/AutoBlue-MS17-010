@@ -78,7 +78,9 @@ If you have completed the USAGE steps, now you're ready to PWN the target.
 
 run `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin> <Number of Groom Connections (optional)>`
 
-This has only been tested on Windows 7/Server 2008, however the exploit included in this repo also includes the Windows 8 version and *should* work.
+This has only been tested on Windows 7/Server 2008, and Windows 10 10230 (x64) 
+
+However the exploit included in this repo also includes the Windows 8/Server 2012 version and *should* work.
 
 
 The original exploit code that this repo pulls from is located here: https://github.com/worawit/MS17-010
