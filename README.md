@@ -14,8 +14,10 @@ run `python eternalblue_checker.py <TARGET-IP>`
 ## TODO:
 1. Testing with non-msfvenom shellcode
 
-## VIDEO TUTORIAL:
-https://www.youtube.com/watch?v=p9OnxS1oDc0
+## VIDEO TUTORIALS:
+- https://www.youtube.com/watch?v=p9OnxS1oDc0
+- https://youtu.be/2FwqryKUoX8
+
 
 ## USAGE:
 Navigate to the `shellcode` directory in the repo:
