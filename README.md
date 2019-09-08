@@ -82,7 +82,9 @@ run:
 
 `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin> <Number of Groom Connections (optional)>`
 
-Alternatively you may use `zzz_exploit.py` which is an implementation of the "Eternal"family that uses the same technique from Eternal Romance, Synergy, and Champion. This is not setup to send back a reverse shell or execute any sort of payload like Eternal Blue is. This uses the functions from mysmb.py to spawn a semi-interactive cmd shell. There are commented out sections of code that can be modified to interact with metasploit or send of custom payloads using the `service_exec()` function call.
+Alternatively you may use `zzz_exploit.py` which is an implementation of the "Eternal" family that uses the same technique from Eternal Romance, Synergy, and Champion. 
+
+This is not setup to send back a reverse shell or execute any sort of payload like Eternal Blue is. This uses the functions from mysmb.py to spawn a semi-interactive cmd shell. There are commented out sections of code that can be modified to interact with metasploit or send of custom payloads using the `service_exec()` function call.
 
 All of the code execution functionality can be found in the `do_system_mysmb_session()` function.
 
