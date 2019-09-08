@@ -82,9 +82,21 @@ run:
 
 `python eternalblue_exploit7.py <TARGET-IP> <PATH/TO/SHELLCODE/sc_all.bin> <Number of Groom Connections (optional)>`
 
-This has only been tested on Windows 7/Server 2008, and Windows 10 10240 (x64) 
+Alternatively you may use `zzz_exploit.py` which is an implementation of the "Eternal"family that uses the same technique from Eternal Romance, Synergy, and Champion. This is not setup to send back a reverse shell or execute any sort of payload like Eternal Blue is. This uses the functions from mysmb.py to spawn a semi-interactive cmd shell. There are commented out sections of code that can be modified to interact with metasploit or send of custom payloads using the `service_exec()` function call.
 
-However the exploit included in this repo also includes the Windows 8/Server 2012 version and *should* work.
+All of the code execution functionality can be found in the `do_system_mysmb_session()` function.
+
+This version of the exploit is great for targeting systems that have named pipes available to avoid crashing the target.
+
+run:
+`python zzz_exploit.py <TARGET-IP>`
 
 
+Enternal Blue has only been tested on Windows 7/Server 2008, and Windows 10 10240 (x64) 
+
+zzz has only been tested on Windows XP
+
+However the Eternal Blue exploits included in this repo also includes the Windows 8/Server 2012 version and *should* work.
+
+The zzz exploit should also work on all targets provided you have access to a named pipe. For some OS's (Windows 10) this may also require credentials of a user who can access this named pipe (This is because on newer versions, Guest and NULL sessions are not supported out of the box).
 The original exploit code that this repo pulls from is located here: https://github.com/worawit/MS17-010
