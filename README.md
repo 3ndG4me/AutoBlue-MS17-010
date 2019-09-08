@@ -1,4 +1,4 @@
-# MS17-010 (ETERNAL BLUE) Exploit Code
+# MS17-010 Exploit Code
 
 This is some no-bs public exploit code that generates valid shellcode for the eternal blue exploit and scripts out the event listener with the metasploit multi-handler.
 
