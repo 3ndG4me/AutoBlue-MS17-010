@@ -97,7 +97,8 @@ Enternal Blue has only been tested on Windows 7/Server 2008, and Windows 10 1024
 
 zzz has only been tested on Windows XP
 
-However the Eternal Blue exploits included in this repo also includes the Windows 8/Server 2012 version and *should* work.
+However the Eternal Blue exploits included in this repo also include support for Windows 8/Server 2012 and *should* work.
 
 The zzz exploit should also work on all targets provided you have access to a named pipe. For some OS's (Windows 10) this may also require credentials of a user who can access this named pipe (This is because on newer versions, Guest and NULL sessions are not supported out of the box).
+
 The original exploit code that this repo pulls from is located here: https://github.com/worawit/MS17-010
