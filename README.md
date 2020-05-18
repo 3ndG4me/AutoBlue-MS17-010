@@ -8,7 +8,7 @@ This allows for this version of the MS17-010 exploit to be a bit more flexible, 
 
 Included is also an enternal blue checker script that allows you to test if your target is potentially vulnerable to MS17-010
 
-run `python eternalblue_checker.py <TARGET-IP>`
+run `python eternal_checker.py <TARGET-IP>`
 
 
 ## TODO:

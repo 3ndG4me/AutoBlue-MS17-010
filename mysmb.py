@@ -564,7 +564,7 @@ class SMBServer(Thread):
         logging.info('Creating tmp directory')
         try:
             os.mkdir(SMBSERVER_DIR)
-        except Exception, e:
+        except Exception as e:
             logging.critical(str(e))
             pass
         logging.info('Setting up SMB Server')
