@@ -26,7 +26,7 @@ if [[ "$?" == "1" ]];then
     exit 1
 fi
 
-# verificar usuario root
+# check root user
 [[ "$UID" -ne "0" ]] && { echo -e "\nOnly ${RED}root${END}.\n"; exit 1; }
 
 # ====================================================================
@@ -124,7 +124,7 @@ if [[ "${genMSF}" =~ [yY](es)* ]];then
             ;;
             *)
                 echo -e "\n${RED}Invalid option...exiting...${END}\n"
-                exit 1 
+                exit 1
         esac
     done
 
