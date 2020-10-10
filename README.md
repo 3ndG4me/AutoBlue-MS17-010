@@ -11,8 +11,21 @@ Included is also an enternal blue checker script that allows you to test if your
 run `python eternal_checker.py <TARGET-IP>`
 
 
+# Requirements
+Core exploit code requires impacket and the `mysmb.py` library (included with the repo). To install any requirements simply use pip on the `requirements.txt` file. It's always recommended you use a virtual environment like `venv` when installing python dependencies, but use whatever you like.
+
+Additionally, the helper scripts below require the Metasploit Framework to be installed. At minimum you will need `msfvenom` for the `shell_prep.sh` but stageless command shells can be caught like any normal command shell without the use of Metasploit's multi/handler. Otherwise, simply install the metasploit framework and insure it is in your path.
+
+Keep in mind `python2` is *not* officially supported anymore. The original exploit code that is provided was initially built for python2, going forward any errors discovered will be adjusted for insuring the code works with python3 instead of python2. Instructions below assume python/pip are `python3` by default, so if you are using `python2` update based on your own paths when necessary and remember, it is *NOT* officially supported by this repo.
+## Python2
+`pip2.7 install -r requirements.txt`
+
+## Python3
+`pip install -r requirements.txt`
+
 ## TODO:
-1. Testing with non-msfvenom shellcode
+- [x] Validate python3 compatibility
+- [ ] Testing with non-msfvenom shellcode
 
 ## VIDEO TUTORIALS:
 - https://www.youtube.com/watch?v=p9OnxS1oDc0
