@@ -16,6 +16,7 @@ Core exploit code requires impacket and the `mysmb.py` library (included with th
 
 Additionally, the helper scripts below require the Metasploit Framework to be installed. At minimum you will need `msfvenom` for the `shell_prep.sh` but stageless command shells can be caught like any normal command shell without the use of Metasploit's multi/handler. Otherwise, simply install the metasploit framework and insure it is in your path.
 
+#### IMPORTANT SUPPORT INFO:
 Keep in mind `python2` is *not* officially supported anymore. The original exploit code that is provided was initially built for python2, going forward any errors discovered will be adjusted for insuring the code works with python3 instead of python2. Instructions below assume python/pip are `python3` by default, so if you are using `python2` update based on your own paths when necessary and remember, it is *NOT* officially supported by this repo.
 ## Python2
 `pip2.7 install -r requirements.txt`
