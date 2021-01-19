@@ -14,7 +14,7 @@ fp = open(sys.argv[3], 'wb')
 \x40			inc eax
 \x0f\x84????	jz sc_x64
 '''
-fp.write('\x31\xc0\x40\x0f\x84'+pack('<I', len(sc_x86)))
+fp.write('\x31\xc0\x40\x0f\x84'.encode()+pack('<I', len(sc_x86)))
 fp.write(sc_x86)
 fp.write(sc_x64)
 fp.close()

