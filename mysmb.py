@@ -1,15 +1,21 @@
 # impacket SMB extension for MS17-010 exploit.
 # this file contains only valid SMB packet format operation.
-from impacket import smb, smbconnection
+from impacket import smb, smbconnection, smbserver
 from impacket.dcerpc.v5 import transport, scmr
 from struct import pack
 from threading import Thread
 import os
 import cmd
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 import string
 import random
 import logging
 
+SMBSERVER_DIR   = '__tmp'
+DUMMY_SHARE     = 'TMP'
 
 def getNTStatus(self):
     return (self['ErrorCode'] << 16) | (self['_reserved'] << 8) | self['ErrorClass']
