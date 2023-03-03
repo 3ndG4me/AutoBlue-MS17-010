@@ -417,7 +417,7 @@ class RemoteShell(cmd.Cmd):
         self.__share = share
         self.__mode = mode
         self.__outputFilename = ''.join([random.choice(string.ascii_letters) for _ in range(4)])
-        self.__output = '\\\\127.0.0.1\\{}\\{}'.format(self.__share,self.__outputFilename)
+        self.__output = '\\\\%COMPUTERNAME%\\{}\\{}'.format(self.__share,self.__outputFilename)
         self.__batchFile = '%TEMP%\\{}.bat'.format(''.join([random.choice(string.ascii_letters) for _ in range(4)]))
         self.__outputBuffer = b''
         self.__command = ''
