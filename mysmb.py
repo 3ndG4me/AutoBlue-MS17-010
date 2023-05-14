@@ -480,7 +480,7 @@ class RemoteShell(cmd.Cmd):
         self.execute_remote('cd ' )
         if len(self.__outputBuffer) > 0:
             # Stripping CR/LF
-            self.prompt = self.__outputBuffer.decode().replace('\r\n','') + '>'
+            self.prompt = self.__outputBuffer.decode(errors='replace').replace('\r\n','') + '>'
             self.__outputBuffer = b''
 
     def do_CD(self, s):
@@ -525,7 +525,7 @@ class RemoteShell(cmd.Cmd):
 
     def send_data(self, data):
         self.execute_remote(data)
-        print(self.__outputBuffer.decode())
+        print(self.__outputBuffer.decode(errors='replace'))
         self.__outputBuffer = b''
 
 class SMBServer(Thread):
